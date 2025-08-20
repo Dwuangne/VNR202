@@ -25,17 +25,23 @@ class PDFStorybook {
         this.canvasSingle = document.getElementById('pdf-render-single');
         this.canvasLeft = document.getElementById('pdf-render-left');
         this.canvasRight = document.getElementById('pdf-render-right');
-        this.ctxSingle = this.canvasSingle.getContext('2d');
-        this.ctxLeft = this.canvasLeft.getContext('2d');
-        this.ctxRight = this.canvasRight.getContext('2d');
+        this.ctxSingle = this.canvasSingle?.getContext('2d');
+        this.ctxLeft = this.canvasLeft?.getContext('2d');
+        this.ctxRight = this.canvasRight?.getContext('2d');
         
-        this.containerSingle = document.getElementById('canvas-container-single');
-        this.containerDual = document.getElementById('canvas-container-dual');
+        this.singleView = document.getElementById('single-view');
+        this.spreadView = document.getElementById('spread-view');
+        this.pageLoading = document.getElementById('page-loading');
+        this.progressFill = document.getElementById('progress-fill');
+        this.progressText = document.getElementById('progress-text');
+        this.zoomLevel = document.getElementById('zoom-level');
         
         this.audio = document.getElementById('audio-element');
         this.loadingSpinner = document.getElementById('loading-spinner');
         this.enableSoundOverlay = document.getElementById('enable-sound-overlay');
-        // Removed reading progress elements
+        // New progress elements
+        this.progressFill = document.getElementById('progress-fill');
+        this.progressText = document.getElementById('progress-text');
         
         // Book layout state
         this.isBookMode = true; // true = book layout, false = single page
@@ -74,7 +80,10 @@ class PDFStorybook {
             this.config = await response.json();
             
             // Update UI with config
-            document.getElementById('book-title').textContent = this.config.title || 'PDF Audio Storybook';
+            const bookTitle = document.getElementById('book-title');
+            if (bookTitle) {
+                bookTitle.textContent = this.config.title || 'PDF Audio Storybook';
+            }
             
             // Setup audio defaults
             this.audio.muted = this.config.startMuted || false;
@@ -112,8 +121,11 @@ class PDFStorybook {
             this.totalPages = this.pdfDoc.numPages;
             
             // Update UI - simplified
+            document.title = this.config.title || 'PDF Audio Storybook';
             
-            // Render first page
+            // Initialize zoom display and render first page
+            this.updateZoomDisplay();
+            this.updateZoomButtons();
             await this.renderPage(this.currentPage);
             
             // Start prefetching
@@ -182,9 +194,10 @@ class PDFStorybook {
     }
 
     async renderSinglePage(pageNum, currentToken) {
-        // Show single page container, hide dual
-        this.containerSingle.style.display = 'block';
-        this.containerDual.style.display = 'none';
+        // Show single page view, hide spread view
+        if (this.singleView) this.singleView.style.display = 'block';
+        if (this.spreadView) this.spreadView.style.display = 'none';
+        if (this.pageLoading) this.pageLoading.style.display = 'none';
 
         let page = this.prefetchedPages.get(pageNum);
         if (!page) {
@@ -217,9 +230,10 @@ class PDFStorybook {
             return;
         }
 
-        // Show dual page container, hide single
-        this.containerSingle.style.display = 'none';
-        this.containerDual.style.display = 'flex';
+        // Show spread view, hide single view
+        if (this.singleView) this.singleView.style.display = 'none';
+        if (this.spreadView) this.spreadView.style.display = 'flex';
+        if (this.pageLoading) this.pageLoading.style.display = 'none';
 
         // Calculate left and right page numbers for book spreads
         let leftPageNum, rightPageNum;
@@ -286,54 +300,15 @@ class PDFStorybook {
     }
 
     updateCanvasContainer() {
-        const maxWidth = window.innerWidth - 40;
-        const maxHeight = window.innerHeight - 300;
-        
-        // Check if current page should be single
-        const isFirstPage = this.currentPage === 1;
-        const isLastEvenPage = this.currentPage === this.totalPages && this.currentPage % 2 === 0;
-        const isSinglePage = isFirstPage || isLastEvenPage;
-        
-        if (isSinglePage) {
-            // Single page layout
-            const container = this.containerSingle;
-            if (this.canvasSingle.width > maxWidth) {
-                container.style.width = maxWidth + 'px';
-            } else {
-                container.style.width = 'auto';
-            }
-            
-            if (this.canvasSingle.height > maxHeight) {
-                container.style.maxHeight = maxHeight + 'px';
-            } else {
-                container.style.maxHeight = 'none';
-            }
-        } else {
-            // Dual page layout
-            const container = this.containerDual;
-            const totalWidth = this.canvasLeft.width + this.canvasRight.width + 80; // Account for padding
-            
-            if (totalWidth > maxWidth) {
-                const scale = maxWidth / totalWidth;
-                container.style.transform = `scale(${scale})`;
-                container.style.transformOrigin = 'center center';
-            } else {
-                container.style.transform = 'none';
-            }
-            
-            const maxCanvasHeight = Math.max(this.canvasLeft.height, this.canvasRight.height);
-            if (maxCanvasHeight > maxHeight) {
-                container.style.maxHeight = maxHeight + 'px';
-                container.style.overflow = 'auto';
-            } else {
-                container.style.maxHeight = 'none';
-                container.style.overflow = 'visible';
-            }
-        }
+        // Auto-scaling is now handled by CSS
+        // This method can be used for additional responsive adjustments if needed
     }
 
     updatePageDisplay() {
         this.updateNavigationButtons();
+        this.updateProgress();
+        this.updateZoomDisplay();
+        this.updateZoomButtons();
     }
 
     // Removed spread info display
@@ -343,8 +318,17 @@ class PDFStorybook {
     updateNavigationButtons() {
         const prev = this.getPrevPageInBook();
         const next = this.getNextPageInBook();
-        document.getElementById('prev-page').disabled = !prev || prev === this.currentPage;
-        document.getElementById('next-page').disabled = !next || next === this.currentPage;
+        
+        const prevBtn = document.getElementById('prev-page');
+        const nextBtn = document.getElementById('next-page');
+        
+        if (prevBtn) {
+            prevBtn.disabled = !prev || prev === this.currentPage;
+        }
+        
+        if (nextBtn) {
+            nextBtn.disabled = !next || next === this.currentPage;
+        }
     }
 
     // Removed zoom display
@@ -601,13 +585,15 @@ class PDFStorybook {
     }
 
     addPageFlipAnimation(isForward) {
-        // Skip animation for first page or if in single page mode
-        if (this.currentPage === 1 || (this.currentPage === 2 && !isForward)) {
+        // Skip animation for first page
+        if (this.currentPage === 1) {
             return;
         }
 
-        const leftContainer = document.getElementById('page-left-container');
-        const rightContainer = document.getElementById('page-right-container');
+        const leftContainer = document.getElementById('left-page-container');
+        const rightContainer = document.getElementById('right-page-container');
+        
+        if (!leftContainer || !rightContainer) return;
         
         // Remove existing animation classes
         leftContainer.classList.remove('page-flipping', 'page-flip-left');
@@ -629,7 +615,40 @@ class PDFStorybook {
         }, 800);
     }
 
-    // Removed zoom methods
+    // Zoom methods
+    zoomIn() {
+        this.scale = Math.min(this.scale + 0.25, 3);
+        this.updateZoomDisplay();
+        this.updateZoomButtons();
+        this.renderPage(this.currentPage, true);
+    }
+
+    zoomOut() {
+        this.scale = Math.max(this.scale - 0.25, 0.5);
+        this.updateZoomDisplay();
+        this.updateZoomButtons();
+        this.renderPage(this.currentPage, true);
+    }
+    
+    updateZoomDisplay() {
+        if (this.zoomLevel) {
+            const zoomPercent = Math.round(this.scale * 100);
+            this.zoomLevel.textContent = `${zoomPercent}%`;
+        }
+    }
+    
+    updateZoomButtons() {
+        const zoomInBtn = document.getElementById('zoom-in');
+        const zoomOutBtn = document.getElementById('zoom-out');
+        
+        if (zoomInBtn) {
+            zoomInBtn.disabled = this.scale >= 3;
+        }
+        
+        if (zoomOutBtn) {
+            zoomOutBtn.disabled = this.scale <= 0.5;
+        }
+    }
 
     // Audio control methods
     togglePlayPause() {
@@ -685,16 +704,41 @@ class PDFStorybook {
     // Event Handlers
     setupEventListeners() {
         // Navigation buttons
-        document.getElementById('prev-page').addEventListener('click', () => { this.audioEnabled = true; this.prevPage(); });
-        document.getElementById('next-page').addEventListener('click', () => { this.audioEnabled = true; this.nextPage(); });
+        const prevBtn = document.getElementById('prev-page');
+        const nextBtn = document.getElementById('next-page');
+        
+        if (prevBtn) {
+            prevBtn.addEventListener('click', () => { this.audioEnabled = true; this.prevPage(); });
+        }
+        
+        if (nextBtn) {
+            nextBtn.addEventListener('click', () => { this.audioEnabled = true; this.nextPage(); });
+        }
         
         // No page input anymore - removed for book-like experience
         
-        // Removed zoom controls
+        // Zoom controls
+        const zoomInBtn = document.getElementById('zoom-in');
+        const zoomOutBtn = document.getElementById('zoom-out');
+        
+        if (zoomInBtn) {
+            zoomInBtn.addEventListener('click', () => this.zoomIn());
+        }
+        
+        if (zoomOutBtn) {
+            zoomOutBtn.addEventListener('click', () => this.zoomOut());
+        }
         
         // Audio controls
-        document.getElementById('play-pause').addEventListener('click', () => this.togglePlayPause());
-        document.getElementById('mute-unmute').addEventListener('click', () => this.toggleMute());
+        const playPauseBtn = document.getElementById('play-pause');
+        if (playPauseBtn) {
+            playPauseBtn.addEventListener('click', () => this.togglePlayPause());
+        }
+        
+        const muteBtn = document.getElementById('mute-unmute');
+        if (muteBtn) {
+            muteBtn.addEventListener('click', () => this.toggleMute());
+        }
         
         const replayBtn = document.getElementById('replay-page-sound');
         if (replayBtn) {
@@ -706,18 +750,14 @@ class PDFStorybook {
         }
         
         // Enable sound overlay
-        document.getElementById('enable-sound').addEventListener('click', () => {
-            this.enableAudio();
-        });
+        const enableSoundBtn = document.getElementById('enable-sound');
+        if (enableSoundBtn) {
+            enableSoundBtn.addEventListener('click', () => {
+                this.enableAudio();
+            });
+        }
         
-        // Progress bar
-        const progressBar = document.getElementById('progress-bar');
-        progressBar.addEventListener('input', (e) => {
-            if (this.audio.duration) {
-                const seekTime = (this.audio.duration / 100) * e.target.value;
-                this.audio.currentTime = seekTime;
-            }
-        });
+        // Progress bar (removed)
         
         // Audio events
         this.audio.addEventListener('play', () => this.updatePlayButton(true));
@@ -730,23 +770,21 @@ class PDFStorybook {
             }
         });
         
-        this.audio.addEventListener('timeupdate', () => this.updateAudioProgress());
-        this.audio.addEventListener('durationchange', () => this.updateAudioDuration());
+        // Removed timeupdate and durationchange listeners
         
         // Keyboard shortcuts
         document.addEventListener('keydown', (e) => this.handleKeyboard(e));
         
-        // Touch/swipe events for both single and dual layouts
-        this.containerSingle.addEventListener('touchstart', (e) => this.handleTouchStart(e));
-        this.containerSingle.addEventListener('touchmove', (e) => this.handleTouchMove(e));
-        this.containerSingle.addEventListener('touchend', (e) => { this.audioEnabled = true; this.handleTouchEnd(e); });
+        // Touch/swipe events for book container
+        const bookContainer = document.querySelector('.book-container');
+        if (bookContainer) {
+            bookContainer.addEventListener('touchstart', (e) => this.handleTouchStart(e));
+            bookContainer.addEventListener('touchmove', (e) => this.handleTouchMove(e));
+            bookContainer.addEventListener('touchend', (e) => { this.audioEnabled = true; this.handleTouchEnd(e); });
+        }
         
-        this.containerDual.addEventListener('touchstart', (e) => this.handleTouchStart(e));
-        this.containerDual.addEventListener('touchmove', (e) => this.handleTouchMove(e));
-        this.containerDual.addEventListener('touchend', (e) => { this.audioEnabled = true; this.handleTouchEnd(e); });
-        
-        // Resize events
-        window.addEventListener('resize', () => this.updateCanvasContainer());
+        // Resize events (CSS handles responsive design now)
+        // window.addEventListener('resize', () => this.updateCanvasContainer());
         
         // Visibility change (for pausing audio when tab is hidden)
         document.addEventListener('visibilitychange', () => {
@@ -777,7 +815,16 @@ class PDFStorybook {
                 e.preventDefault();
                 this.toggleMute();
                 break;
-                        // Removed zoom shortcuts
+                        case '+': 
+            case '=':
+                e.preventDefault();
+                this.zoomIn();
+                break;
+            case '-':
+            case '_':
+                e.preventDefault();
+                this.zoomOut();
+                break;
         }
     }
 
@@ -820,17 +867,11 @@ class PDFStorybook {
     }
 
     updateAudioProgress() {
-        if (this.audio.duration) {
-            const progress = (this.audio.currentTime / this.audio.duration) * 100;
-            document.getElementById('progress-bar').value = progress;
-            document.getElementById('current-time').textContent = this.formatTime(this.audio.currentTime);
-        }
+        // Progress display removed
     }
 
     updateAudioDuration() {
-        if (this.audio.duration) {
-            document.getElementById('duration').textContent = this.formatTime(this.audio.duration);
-        }
+        // Duration display removed
     }
 
     formatTime(seconds) {
@@ -853,21 +894,29 @@ class PDFStorybook {
     }
 
     showEnableSoundOverlay() {
-        this.enableSoundOverlay.style.display = 'flex';
+        if (this.enableSoundOverlay) {
+            this.enableSoundOverlay.style.display = 'flex';
+        }
     }
 
     hideEnableSoundOverlay() {
-        this.enableSoundOverlay.style.display = 'none';
+        if (this.enableSoundOverlay) {
+            this.enableSoundOverlay.style.display = 'none';
+        }
     }
 
     hideLoading() {
-        this.loadingSpinner.style.display = 'none';
+        if (this.loadingSpinner) {
+            this.loadingSpinner.style.display = 'none';
+        }
     }
 
     updateLoadingProgress(message) {
-        const loadingText = this.loadingSpinner.querySelector('p');
-        if (loadingText) {
-            loadingText.textContent = message;
+        if (this.loadingSpinner) {
+            const loadingText = this.loadingSpinner.querySelector('p');
+            if (loadingText) {
+                loadingText.textContent = message;
+            }
         }
     }
 
@@ -876,7 +925,14 @@ class PDFStorybook {
         toast.className = `toast ${type}`;
         toast.textContent = message;
         
-        const container = document.getElementById('toast-container');
+        let container = document.getElementById('toast-container');
+        if (!container) {
+            container = document.createElement('div');
+            container.id = 'toast-container';
+            container.className = 'toast-container';
+            document.body.appendChild(container);
+        }
+        
         container.appendChild(toast);
         
         // Auto remove after 3 seconds
@@ -889,13 +945,22 @@ class PDFStorybook {
 
     showError(title, message) {
         const errorDisplay = document.getElementById('error-display');
-        document.getElementById('error-message').textContent = message;
-        errorDisplay.style.display = 'block';
+        const errorMessage = document.getElementById('error-message');
+        const retryButton = document.getElementById('retry-button');
         
-        document.getElementById('retry-button').onclick = () => {
-            errorDisplay.style.display = 'none';
-            location.reload();
-        };
+        if (errorDisplay && errorMessage) {
+            errorMessage.textContent = message;
+            errorDisplay.style.display = 'block';
+        }
+        
+        if (retryButton) {
+            retryButton.onclick = () => {
+                if (errorDisplay) {
+                    errorDisplay.style.display = 'none';
+                }
+                location.reload();
+            };
+        }
         
         this.hideLoading();
     }
@@ -912,7 +977,14 @@ class PDFStorybook {
         localStorage.setItem('pdf-storybook-state', JSON.stringify(state));
     }
 
-    // Removed reading progress
+    // Update progress bar
+    updateProgress() {
+        if (!this.progressFill || !this.progressText) return;
+        
+        const progress = (this.currentPage / this.totalPages) * 100;
+        this.progressFill.style.width = `${progress}%`;
+        this.progressText.textContent = `Trang ${this.currentPage} / ${this.totalPages}`;
+    }
 
     loadSavedState() {
         try {
