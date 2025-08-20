@@ -4,7 +4,7 @@
   "autoplay": true,
   "startMuted": false,
   "loop": false,
-  "totalPages": 5,
+  "totalPages": 8,
   "pages": {
     "1": { 
       "audio": "assets/audio/p1.wav", 
@@ -13,23 +13,34 @@
     },
     "2": { 
       "audio": "assets/audio/p2.wav", 
-      "title": "Chapter 1",
-      "description": "The adventure begins"
+      "title": "Spread 1: Pages 2-3",
+      "description": "The adventure begins - shared audio for both pages"
     },
     "3": { 
-      "audio": "assets/audio/p3.wav", 
-      "title": "Chapter 2",
-      "description": "Plot thickens"
+      "title": "Page 3 (part of spread 1)",
+      "description": "Continues the adventure from page 2"
     },
     "4": { 
       "audio": "assets/audio/p4.wav", 
-      "title": "Chapter 3",
-      "description": "Climax of the story"
+      "title": "Spread 2: Pages 4-5",
+      "description": "Plot development - shared audio for both pages"
     },
     "5": { 
-      "audio": "assets/audio/p5.wav", 
-      "title": "Conclusion",
-      "description": "The end of our journey"
+      "title": "Page 5 (part of spread 2)",
+      "description": "Continues from page 4"
+    },
+    "6": { 
+      "audio": "assets/audio/p5.wav",
+      "title": "Spread 3: Pages 6-7",
+      "description": "Climax approaches - shared audio for both pages"
+    },
+    "7": { 
+      "title": "Page 7 (part of spread 3)",
+      "description": "Continues from page 6"
+    },
+    "8": { 
+      "title": "Back Cover",
+      "description": "The end - single page like front cover"
     }
   }
 }

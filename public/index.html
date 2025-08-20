@@ -31,70 +31,64 @@
     <header class="header" role="banner">
         <div class="header-content">
             <h1 id="book-title" class="book-title">PDF Audio Storybook</h1>
-            <div class="navigation" role="navigation" aria-label="Điều hướng trang">
-                <button id="prev-page" class="nav-btn" tabindex="0" aria-label="Trang trước" title="Trang trước (←)">
-                    ‹ Trước
-                </button>
-                <div class="page-input-group">
-                    <label for="current-page" class="sr-only">Số trang hiện tại</label>
-                    <input type="number" id="current-page" class="page-input" min="1" 
-                           tabindex="0" aria-label="Số trang hiện tại">
-                    <span id="total-pages" class="total-pages">/ 0</span>
-                </div>
-                <button id="next-page" class="nav-btn" tabindex="0" aria-label="Trang tiếp theo" title="Trang tiếp theo (→)">
-                    Tiếp ›
-                </button>
-                <div class="zoom-controls">
-                    <button id="zoom-out" class="zoom-btn" tabindex="0" aria-label="Thu nhỏ" title="Thu nhỏ">−</button>
-                    <span id="zoom-level" class="zoom-display">100%</span>
-                    <button id="zoom-in" class="zoom-btn" tabindex="0" aria-label="Phóng to" title="Phóng to">+</button>
-                </div>
-            </div>
+            <button id="mute-unmute" class="header-mute-btn" tabindex="0" 
+                    aria-label="Tắt / Bật tiếng" title="Tắt / Bật tiếng (M)">
+                <span class="unmute-icon">🔊</span>
+                <span class="mute-icon" style="display: none;">🔇</span>
+            </button>
         </div>
     </header>
 
     <!-- Main Content -->
     <main class="main-content" role="main">
-        <div class="canvas-container" id="canvas-container">
-            <canvas id="pdf-render" class="pdf-canvas" role="img" aria-label="Trang PDF hiện tại"></canvas>
-        </div>
-        
-        <!-- Page Info Display -->
-        <div id="page-info" class="page-info" aria-live="polite">
-            <h2 id="page-title" class="page-title"></h2>
-            <p id="page-description" class="page-description"></p>
+        <div class="book-reading-area">
+            <!-- Previous Page Button -->
+            <button id="prev-page" class="side-nav-btn prev-btn" tabindex="0" 
+                    aria-label="Trang trước" title="Trang trước (←)">
+                <span class="nav-arrow">‹</span>
+            </button>
+
+            <!-- Book Container -->
+            <div class="book-container">
+                <!-- Single Page Container (for cover/odd pages when alone) -->
+                <div class="canvas-container single-page" id="canvas-container-single" style="display: none;">
+                    <canvas id="pdf-render-single" class="pdf-canvas" role="img" aria-label="Trang PDF hiện tại"></canvas>
+                </div>
+                
+                <!-- Dual Page Container (for book spread) -->
+                <div class="canvas-container dual-page" id="canvas-container-dual" style="display: none;">
+                    <div class="page-spread">
+                        <div class="page-left page-flip-container" id="page-left-container">
+                            <canvas id="pdf-render-left" class="pdf-canvas" role="img" aria-label="Trang trái"></canvas>
+                        </div>
+                        <div class="page-right page-flip-container" id="page-right-container">
+                            <canvas id="pdf-render-right" class="pdf-canvas" role="img" aria-label="Trang phải"></canvas>
+                        </div>
+                        <div class="book-spine"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Next Page Button -->
+            <button id="next-page" class="side-nav-btn next-btn" tabindex="0" 
+                    aria-label="Trang tiếp theo" title="Trang tiếp theo (→)">
+                <span class="nav-arrow">›</span>
+            </button>
         </div>
     </main>
 
-    <!-- Audio Player -->
-    <footer class="footer" role="contentinfo">
-        <div class="audio-player" role="region" aria-label="Trình phát âm thanh">
-            <div class="audio-controls">
-                <button id="play-pause" class="control-btn play-btn" tabindex="0" 
-                        aria-label="Phát / Tạm dừng" title="Phát / Tạm dừng (Space)">
-                    <span class="play-icon">▶</span>
-                    <span class="pause-icon" style="display: none;">⏸</span>
-                </button>
-                
-                <div class="progress-container">
-                    <input type="range" id="progress-bar" class="progress-bar" 
-                           min="0" max="100" value="0" step="0.1"
-                           tabindex="0" aria-label="Thanh tiến độ âm thanh">
-                    <div class="time-display">
-                        <span id="current-time" class="time">0:00</span>
-                        <span class="time-separator">/</span>
-                        <span id="duration" class="time">0:00</span>
-                    </div>
-                </div>
-                
-                <button id="mute-unmute" class="control-btn mute-btn" tabindex="0" 
-                        aria-label="Tắt / Bật tiếng" title="Tắt / Bật tiếng (M)">
-                    <span class="unmute-icon">🔊</span>
-                    <span class="mute-icon" style="display: none;">🔇</span>
-                </button>
-            </div>
-        </div>
-    </footer>
+    <!-- Simple Audio Controls -->
+    <div class="simple-audio-controls">
+        <button id="play-pause" class="simple-control-btn" tabindex="0" 
+                aria-label="Phát / Tạm dừng" title="Phát / Tạm dừng (Space)">
+            <span class="play-icon">▶</span>
+            <span class="pause-icon" style="display: none;">⏸</span>
+        </button>
+        <button id="replay-page-sound" class="simple-control-btn" tabindex="0" 
+                aria-label="Phát lại âm thanh trang" title="Phát lại âm thanh trang">
+            🔄
+        </button>
+    </div>
 
     <!-- Toast Notifications -->
     <div id="toast-container" class="toast-container" aria-live="polite"></div>

@@ -9,8 +9,8 @@ endobj
 2 0 obj
 <<
 /Type /Pages
-/Kids [3 0 R 4 0 R 5 0 R 6 0 R 7 0 R]
-/Count 5
+/Kids [3 0 R 4 0 R 5 0 R 6 0 R 7 0 R 8 0 R 9 0 R 10 0 R]
+/Count 8
 >>
 endobj
 
@@ -19,7 +19,7 @@ endobj
 /Type /Page
 /Parent 2 0 R
 /MediaBox [0 0 612 792]
-/Contents 8 0 R
+/Contents 11 0 R
 >>
 endobj
 
@@ -28,7 +28,7 @@ endobj
 /Type /Page
 /Parent 2 0 R
 /MediaBox [0 0 612 792]
-/Contents 9 0 R
+/Contents 12 0 R
 >>
 endobj
 
@@ -37,7 +37,7 @@ endobj
 /Type /Page
 /Parent 2 0 R
 /MediaBox [0 0 612 792]
-/Contents 10 0 R
+/Contents 13 0 R
 >>
 endobj
 
@@ -46,7 +46,7 @@ endobj
 /Type /Page
 /Parent 2 0 R
 /MediaBox [0 0 612 792]
-/Contents 11 0 R
+/Contents 14 0 R
 >>
 endobj
 
@@ -55,86 +55,244 @@ endobj
 /Type /Page
 /Parent 2 0 R
 /MediaBox [0 0 612 792]
-/Contents 12 0 R
+/Contents 15 0 R
 >>
 endobj
 
 8 0 obj
 <<
-/Length 100
+/Type /Page
+/Parent 2 0 R
+/MediaBox [0 0 612 792]
+/Contents 16 0 R
 >>
-stream
-BT
-/F1 12 Tf
-72 720 Td
-(Page 1 - Introduction) Tj
-0 -20 Td
-(Welcome to PDF Audio Storybook!) Tj
-ET
-endstream
 endobj
 
 9 0 obj
 <<
-/Length 90
+/Type /Page
+/Parent 2 0 R
+/MediaBox [0 0 612 792]
+/Contents 17 0 R
 >>
-stream
-BT
-/F1 12 Tf
-72 720 Td
-(Page 2 - Chapter 1) Tj
-0 -20 Td
-(The adventure begins here.) Tj
-ET
-endstream
 endobj
 
 10 0 obj
 <<
-/Length 85
+/Type /Page
+/Parent 2 0 R
+/MediaBox [0 0 612 792]
+/Contents 18 0 R
 >>
-stream
-BT
-/F1 12 Tf
-72 720 Td
-(Page 3 - Chapter 2) Tj
-0 -20 Td
-(The plot thickens.) Tj
-ET
-endstream
 endobj
 
 11 0 obj
 <<
-/Length 88
+/Length 150
 >>
 stream
 BT
-/F1 12 Tf
+/F1 18 Tf
 72 720 Td
-(Page 4 - Chapter 3) Tj
+(COVER PAGE - PDF AUDIO STORYBOOK) Tj
+0 -40 Td
+/F1 12 Tf
+(This is the cover page shown alone) Tj
 0 -20 Td
-(Climax of the story.) Tj
+(Audio: p1.wav) Tj
+0 -40 Td
+(Book Layout Features:) Tj
+0 -20 Td
+(- Page 1: Single page layout) Tj
+0 -20 Td
+(- Page 2+: Dual page spread) Tj
+0 -20 Td
+(- 3D page flip animations) Tj
 ET
 endstream
 endobj
 
 12 0 obj
 <<
-/Length 95
+/Length 120
 >>
 stream
 BT
-/F1 12 Tf
+/F1 16 Tf
 72 720 Td
-(Page 5 - Conclusion) Tj
+(PAGE 2 - LEFT SIDE) Tj
+0 -30 Td
+/F1 12 Tf
+(This page appears on the left) Tj
 0 -20 Td
-(The end of our journey.) Tj
+(when viewed with page 3) Tj
+0 -20 Td
+(Audio: p2.wav) Tj
+0 -40 Td
+(Chapter 1: The Adventure Begins) Tj
+0 -20 Td
+(In a book layout, pages 2-3) Tj
+0 -20 Td
+(are displayed side by side) Tj
 ET
 endstream
 endobj
 
 13 0 obj
+<<
+/Length 120
+>>
+stream
+BT
+/F1 16 Tf
+72 720 Td
+(PAGE 3 - RIGHT SIDE) Tj
+0 -30 Td
+/F1 12 Tf
+(This page appears on the right) Tj
+0 -20 Td
+(when viewed with page 2) Tj
+0 -20 Td
+(Audio: p3.wav) Tj
+0 -40 Td
+(Chapter 2: The Plot Thickens) Tj
+0 -20 Td
+(Notice the book spine effect) Tj
+0 -20 Td
+(between the two pages) Tj
+ET
+endstream
+endobj
+
+14 0 obj
+<<
+/Length 120
+>>
+stream
+BT
+/F1 16 Tf
+72 720 Td
+(PAGE 4 - LEFT SIDE) Tj
+0 -30 Td
+/F1 12 Tf
+(This page appears on the left) Tj
+0 -20 Td
+(when viewed with page 5) Tj
+0 -20 Td
+(Audio: p4.wav) Tj
+0 -40 Td
+(Chapter 3: The Climax) Tj
+0 -20 Td
+(Page flip animations show) Tj
+0 -20 Td
+(when navigating between spreads) Tj
+ET
+endstream
+endobj
+
+15 0 obj
+<<
+/Length 110
+>>
+stream
+BT
+/F1 16 Tf
+72 720 Td
+(PAGE 5 - RIGHT SIDE) Tj
+0 -30 Td
+/F1 12 Tf
+(This page appears on the right) Tj
+0 -20 Td
+(when viewed with page 4) Tj
+0 -20 Td
+(Audio: p5.wav) Tj
+0 -40 Td
+(Chapter 4: New Adventures) Tj
+0 -20 Td
+(Touch/swipe gestures work) Tj
+0 -20 Td
+(on mobile devices) Tj
+ET
+endstream
+endobj
+
+16 0 obj
+<<
+/Length 110
+>>
+stream
+BT
+/F1 16 Tf
+72 720 Td
+(PAGE 6 - LEFT SIDE) Tj
+0 -30 Td
+/F1 12 Tf
+(This page appears on the left) Tj
+0 -20 Td
+(when viewed with page 7) Tj
+0 -20 Td
+(No audio for this page) Tj
+0 -40 Td
+(Chapter 5: The Journey Continues) Tj
+0 -20 Td
+(Responsive design adapts) Tj
+0 -20 Td
+(to different screen sizes) Tj
+ET
+endstream
+endobj
+
+17 0 obj
+<<
+/Length 110
+>>
+stream
+BT
+/F1 16 Tf
+72 720 Td
+(PAGE 7 - RIGHT SIDE) Tj
+0 -30 Td
+/F1 12 Tf
+(This page appears on the right) Tj
+0 -20 Td
+(when viewed with page 6) Tj
+0 -20 Td
+(No audio for this page) Tj
+0 -40 Td
+(Chapter 6: Getting Closer) Tj
+0 -20 Td
+(Keyboard shortcuts work:) Tj
+0 -20 Td
+(Arrow keys, Space, M, +/-) Tj
+ET
+endstream
+endobj
+
+18 0 obj
+<<
+/Length 100
+>>
+stream
+BT
+/F1 16 Tf
+72 720 Td
+(PAGE 8 - RIGHT SIDE) Tj
+0 -30 Td
+/F1 12 Tf
+(This page appears on the right) Tj
+0 -20 Td
+(when viewed with page 7) Tj
+0 -20 Td
+(No audio for this page) Tj
+0 -40 Td
+(Conclusion: The End) Tj
+0 -20 Td
+(Thank you for reading!) Tj
+ET
+endstream
+endobj
+
+19 0 obj
 <<
 /Type /Font
 /Subtype /Type1
@@ -143,26 +301,32 @@ endobj
 endobj
 
 xref
-0 14
+0 20
 0000000000 65535 f 
 0000000009 00000 n 
 0000000058 00000 n 
-0000000130 00000 n 
-0000000216 00000 n 
-0000000302 00000 n 
-0000000388 00000 n 
-0000000474 00000 n 
-0000000560 00000 n 
-0000000710 00000 n 
-0000000850 00000 n 
-0000000985 00000 n 
-0000001123 00000 n 
-0000001268 00000 n 
+0000000155 00000 n 
+0000000241 00000 n 
+0000000327 00000 n 
+0000000413 00000 n 
+0000000499 00000 n 
+0000000585 00000 n 
+0000000671 00000 n 
+0000000758 00000 n 
+0000000845 00000 n 
+0000001045 00000 n 
+0000001215 00000 n 
+0000001385 00000 n 
+0000001555 00000 n 
+0000001715 00000 n 
+0000001875 00000 n 
+0000002035 00000 n 
+0000002185 00000 n 
 trailer
 <<
-/Size 14
+/Size 20
 /Root 1 0 R
 >>
 startxref
-1345
+2262
 %%EOF

@@ -4,7 +4,9 @@ Một ứng dụng web tĩnh 100% hiển thị PDF theo từng trang và tự đ
 
 ## ✨ Tính Năng
 
-- 📖 **Hiển thị PDF theo trang** với PDF.js rendering trên canvas
+- 📖 **Book Layout** - Trang 1 hiển thị đơn (bìa), từ trang 2+ hiển thị đôi như sách thật
+- 🎭 **Page Flip Animation** - Hiệu ứng lật trang 3D khi chuyển trang
+- 📚 **Dual Page Spread** - Hiển thị 2 trang cạnh nhau với book spine effect
 - 🎵 **Âm thanh theo trang** - mỗi trang có thể có audio riêng
 - 📱 **Responsive Design** - hoạt động tốt trên mobile, tablet, desktop
 - ♿ **Accessibility** - hỗ trợ screen reader, phím tắt, tabindex

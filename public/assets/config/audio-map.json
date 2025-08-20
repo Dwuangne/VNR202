@@ -1,0 +1,25 @@
+{
+  "defaultFlipSound": "assets/audio/p1.wav",
+  "groups": [
+    {
+      "pages": [1],
+      "audio": "assets/audio/p1.wav"
+    },
+    {
+      "pages": [2, 3],
+      "audio": "assets/audio/p2.wav"
+    },
+    {
+      "pages": [4, 5],
+      "audio": "assets/audio/p4.wav"
+    },
+    {
+      "pages": [6, 7],
+      "audio": "assets/audio/p5.wav"
+    },
+    {
+      "pages": ["last-even"],
+      "audio": "assets/audio/p5.wav"
+    }
+  ]
+}
