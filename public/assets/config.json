@@ -1,0 +1,35 @@
+{
+  "pdf": "assets/pdf/book.pdf",
+  "title": "PDF Audio Storybook",
+  "autoplay": true,
+  "startMuted": false,
+  "loop": false,
+  "totalPages": 5,
+  "pages": {
+    "1": { 
+      "audio": "assets/audio/p1.wav", 
+      "title": "Introduction",
+      "description": "Welcome to the story"
+    },
+    "2": { 
+      "audio": "assets/audio/p2.wav", 
+      "title": "Chapter 1",
+      "description": "The adventure begins"
+    },
+    "3": { 
+      "audio": "assets/audio/p3.wav", 
+      "title": "Chapter 2",
+      "description": "Plot thickens"
+    },
+    "4": { 
+      "audio": "assets/audio/p4.wav", 
+      "title": "Chapter 3",
+      "description": "Climax of the story"
+    },
+    "5": { 
+      "audio": "assets/audio/p5.wav", 
+      "title": "Conclusion",
+      "description": "The end of our journey"
+    }
+  }
+}

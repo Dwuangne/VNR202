@@ -1,0 +1,62 @@
+{
+  "name": "PDF Audio Storybook",
+  "short_name": "PDF Storybook",
+  "description": "Sách điện tử PDF với âm thanh theo từng trang",
+  "theme_color": "#2196F3",
+  "background_color": "#ffffff",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "scope": "./",
+  "start_url": "./",
+  "lang": "vi",
+  "categories": ["books", "education", "entertainment"],
+  "icons": [
+    {
+      "src": "icon-72.png",
+      "sizes": "72x72",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "screenshot-desktop.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide"
+    },
+    {
+      "src": "screenshot-mobile.png",
+      "sizes": "320x640",
+      "type": "image/png",
+      "form_factor": "narrow"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Đọc sách",
+      "short_name": "Đọc",
+      "description": "Mở sách và bắt đầu đọc",
+      "url": "./",
+      "icons": [
+        {
+          "src": "icon-72.png",
+          "sizes": "72x72"
+        }
+      ]
+    }
+  ],
+  "prefer_related_applications": false
+}
