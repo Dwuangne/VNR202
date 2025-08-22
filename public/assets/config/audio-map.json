@@ -26,8 +26,12 @@
       "audio": "assets/audio/p10-11.mp3"
     },
     {
+      "pages": [12, 13],
+      "audio": "assets/audio/p12-13.mp3"
+    },
+    {
       "pages": ["last-even"],
-      "audio": "assets/audio/p12.mp3"
+      "audio": "assets/audio/p14.mp3"
     }
   ]
 }

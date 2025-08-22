@@ -1,10 +1,10 @@
 {
   "pdf": "assets/pdf/book.pdf",
-  "title": "PDF Audio Storybook - 12 Pages",
+  "title": "PDF Audio Storybook - 14 Pages",
   "autoplay": true,
   "startMuted": false,
   "loop": false,
-  "totalPages": 12,
+  "totalPages": 14,
   "pages": {
     "1": { 
       "audio": "assets/audio/p1.mp3", 
@@ -57,7 +57,16 @@
       "description": "Continues from page 10"
     },
     "12": { 
-      "audio": "assets/audio/p12.mp3",
+      "audio": "assets/audio/p12-13.mp3",
+      "title": "Spread 6: Pages 12-13",
+      "description": "Final chapter - shared audio for pages 12-13"
+    },
+    "13": { 
+      "title": "Page 13 (part of spread 6)",
+      "description": "Continues from page 12"
+    },
+    "14": { 
+      "audio": "assets/audio/p14.mp3",
       "title": "Back Cover (Last Even Page)",
       "description": "The end - stands alone as last even page"
     }
