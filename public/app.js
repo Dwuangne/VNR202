@@ -37,6 +37,8 @@ class PDFStorybook {
         this.zoomLevel = document.getElementById('zoom-level');
         
         this.audio = document.getElementById('audio-element');
+        this.flipAudio = new Audio(); // Separate audio for flip sounds
+        this.backgroundAudio = new Audio(); // Background music
         this.loadingSpinner = document.getElementById('loading-spinner');
         this.enableSoundOverlay = document.getElementById('enable-sound-overlay');
         // New progress elements
@@ -63,6 +65,7 @@ class PDFStorybook {
         try {
             await this.loadConfig();
             await this.loadAudioMap();
+            this.setupBackgroundMusic();
             await this.loadPDF();
             this.setupEventListeners();
             this.loadSavedState();
@@ -103,6 +106,27 @@ class PDFStorybook {
             // Audio map is optional, but recommended
             console.warn('Audio map load warning:', error.message);
             this.audioMap = null;
+        }
+    }
+
+    setupBackgroundMusic() {
+        try {
+            this.backgroundAudio.src = 'assets/audio/sound_background.mp3';
+            this.backgroundAudio.loop = true;
+            this.backgroundAudio.volume = 0.15; // Low volume to not interfere with content
+            this.backgroundAudio.preload = 'auto';
+            
+            // Handle background music events
+            this.backgroundAudio.addEventListener('canplaythrough', () => {
+                console.log('Background music loaded');
+            });
+            
+            this.backgroundAudio.addEventListener('error', (e) => {
+                console.warn('Background music load error:', e);
+            });
+            
+        } catch (error) {
+            console.warn('Background music setup error:', error);
         }
     }
 
@@ -368,6 +392,10 @@ class PDFStorybook {
 
     async playSoundFor(pagesShown) {
         try {
+            // First, play flip sound effect
+            this.playFlipSound();
+            
+            // Then handle main content audio
             let audioSrc = '';
             
             // Special last-even handling
@@ -395,30 +423,60 @@ class PDFStorybook {
                 }
             }
             
-            if (!audioSrc && this.audioMap && this.audioMap.defaultFlipSound) {
-                audioSrc = this.audioMap.defaultFlipSound;
-            }
-            
             if (!audioSrc) {
                 this.updatePlayButton(false);
                 return;
             }
             
-            this.audio.src = audioSrc;
-            await this.loadAudio();
-            
-            if (this.audioEnabled && !this.audio.muted && this.config.autoplay) {
-                try {
-                    await this.audio.play();
-                    this.updatePlayButton(true);
-                } catch (error) {
-                    console.log('Autoplay prevented:', error);
-                    this.showEnableSoundOverlay();
+            // Delay main audio to let flip sound play first
+            setTimeout(async () => {
+                this.audio.src = audioSrc;
+                await this.loadAudio();
+                
+                if (this.audioEnabled && !this.audio.muted && this.config.autoplay) {
+                    try {
+                        // Lower background music volume when content plays
+                        if (!this.backgroundAudio.paused) {
+                            this.backgroundAudio.volume = 0.05; // Even lower during content
+                        }
+                        
+                        await this.audio.play();
+                        this.updatePlayButton(true);
+                        
+                        // Restore background volume when content ends
+                        this.audio.addEventListener('ended', () => {
+                            if (!this.backgroundAudio.paused) {
+                                this.backgroundAudio.volume = 0.15;
+                            }
+                        }, { once: true });
+                        
+                    } catch (error) {
+                        console.log('Autoplay prevented:', error);
+                        this.showEnableSoundOverlay();
+                    }
                 }
-            }
+            }, 300); // 300ms delay to let flip sound play
+            
         } catch (error) {
             console.error('Audio loading error:', error);
             this.showToast('Không thể tải âm thanh cho trang này', 'warning');
+        }
+    }
+    
+    playFlipSound() {
+        if (!this.audioEnabled || this.audio.muted || !this.audioMap?.defaultFlipSound) {
+            return;
+        }
+        
+        try {
+            // Use separate audio element for flip sound to avoid conflicts
+            this.flipAudio.src = this.audioMap.defaultFlipSound;
+            this.flipAudio.volume = 0.5; // Medium volume - not too loud
+            this.flipAudio.play().catch(error => {
+                console.log('Flip sound play prevented:', error);
+            });
+        } catch (error) {
+            console.log('Flip sound error:', error);
         }
     }
 
@@ -457,6 +515,11 @@ class PDFStorybook {
         }
         this.audio.currentTime = 0;
         this.updatePlayButton(false);
+        
+        // Restore background music volume when content stops
+        if (!this.backgroundAudio.paused) {
+            this.backgroundAudio.volume = 0.15;
+        }
     }
 
     // Prefetching methods
@@ -671,6 +734,17 @@ class PDFStorybook {
 
     toggleMute() {
         this.audio.muted = !this.audio.muted;
+        // Also mute/unmute flip audio and background music
+        this.flipAudio.muted = this.audio.muted;
+        this.backgroundAudio.muted = this.audio.muted;
+        
+        // Control background music playback
+        if (this.audio.muted) {
+            this.stopBackgroundMusic();
+        } else if (this.audioEnabled) {
+            this.startBackgroundMusic();
+        }
+        
         this.updateMuteButton();
         this.saveCurrentState();
     }
@@ -788,8 +862,13 @@ class PDFStorybook {
         
         // Visibility change (for pausing audio when tab is hidden)
         document.addEventListener('visibilitychange', () => {
-            if (document.hidden && !this.audio.paused) {
-                this.audio.pause();
+            if (document.hidden) {
+                if (!this.audio.paused) {
+                    this.audio.pause();
+                }
+                this.stopBackgroundMusic();
+            } else if (this.audioEnabled && !this.audio.muted) {
+                this.startBackgroundMusic();
             }
         });
     }
@@ -887,9 +966,35 @@ class PDFStorybook {
         this.audioEnabled = true;
         this.hideEnableSoundOverlay();
         
+        // Start background music
+        this.startBackgroundMusic();
+        
         // Try to play current audio if available
         if (this.audio.src && this.audio.paused) {
             this.audio.play().catch(console.error);
+        }
+    }
+    
+    startBackgroundMusic() {
+        if (!this.audioEnabled || this.audio.muted) return;
+        
+        try {
+            this.backgroundAudio.currentTime = 0;
+            this.backgroundAudio.play().catch(error => {
+                console.log('Background music autoplay prevented:', error);
+            });
+        } catch (error) {
+            console.log('Background music start error:', error);
+        }
+    }
+    
+    stopBackgroundMusic() {
+        try {
+            if (!this.backgroundAudio.paused) {
+                this.backgroundAudio.pause();
+            }
+        } catch (error) {
+            console.log('Background music stop error:', error);
         }
     }
 

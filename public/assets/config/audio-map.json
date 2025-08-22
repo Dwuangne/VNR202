@@ -1,25 +1,33 @@
 {
-  "defaultFlipSound": "assets/audio/p1.wav",
+  "defaultFlipSound": "assets/audio/flipping_paper.mp3",
   "groups": [
     {
       "pages": [1],
-      "audio": "assets/audio/p1.wav"
+      "audio": "assets/audio/p1.mp3"
     },
     {
       "pages": [2, 3],
-      "audio": "assets/audio/p2.wav"
+      "audio": "assets/audio/p2-3.mp3"
     },
     {
       "pages": [4, 5],
-      "audio": "assets/audio/p4.wav"
+      "audio": "assets/audio/p4-5.mp3"
     },
     {
       "pages": [6, 7],
-      "audio": "assets/audio/p5.wav"
+      "audio": "assets/audio/p6-7.mp3"
+    },
+    {
+      "pages": [8, 9],
+      "audio": "assets/audio/p8-9.mp3"
+    },
+    {
+      "pages": [10, 11],
+      "audio": "assets/audio/p10-11.mp3"
     },
     {
       "pages": ["last-even"],
-      "audio": "assets/audio/p5.wav"
+      "audio": "assets/audio/p12.mp3"
     }
   ]
 }

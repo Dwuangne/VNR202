@@ -1,46 +1,65 @@
 {
   "pdf": "assets/pdf/book.pdf",
-  "title": "PDF Audio Storybook",
+  "title": "PDF Audio Storybook - 12 Pages",
   "autoplay": true,
   "startMuted": false,
   "loop": false,
-  "totalPages": 8,
+  "totalPages": 12,
   "pages": {
     "1": { 
-      "audio": "assets/audio/p1.wav", 
-      "title": "Introduction",
-      "description": "Welcome to the story"
+      "audio": "assets/audio/p1.mp3", 
+      "title": "Cover Page",
+      "description": "Welcome to the 12-page story"
     },
     "2": { 
-      "audio": "assets/audio/p2.wav", 
+      "audio": "assets/audio/p2-3.mp3", 
       "title": "Spread 1: Pages 2-3",
-      "description": "The adventure begins - shared audio for both pages"
+      "description": "Story begins - shared audio for pages 2-3"
     },
     "3": { 
       "title": "Page 3 (part of spread 1)",
-      "description": "Continues the adventure from page 2"
+      "description": "Continues the story from page 2"
     },
     "4": { 
-      "audio": "assets/audio/p4.wav", 
+      "audio": "assets/audio/p4-5.mp3", 
       "title": "Spread 2: Pages 4-5",
-      "description": "Plot development - shared audio for both pages"
+      "description": "Plot development - shared audio for pages 4-5"
     },
     "5": { 
       "title": "Page 5 (part of spread 2)",
       "description": "Continues from page 4"
     },
     "6": { 
-      "audio": "assets/audio/p5.wav",
+      "audio": "assets/audio/p6-7.mp3",
       "title": "Spread 3: Pages 6-7",
-      "description": "Climax approaches - shared audio for both pages"
+      "description": "Mid-story development - shared audio for pages 6-7"
     },
     "7": { 
       "title": "Page 7 (part of spread 3)",
       "description": "Continues from page 6"
     },
     "8": { 
-      "title": "Back Cover",
-      "description": "The end - single page like front cover"
+      "audio": "assets/audio/p8-9.mp3",
+      "title": "Spread 4: Pages 8-9",
+      "description": "Story climax approaches - audio for pages 8-9"
+    },
+    "9": { 
+      "title": "Page 9 (part of spread 4)",
+      "description": "Continues from page 8"
+    },
+    "10": { 
+      "audio": "assets/audio/p10-11.mp3",
+      "title": "Spread 5: Pages 10-11",
+      "description": "Climax and resolution - audio for pages 10-11"
+    },
+    "11": { 
+      "title": "Page 11 (part of spread 5)",
+      "description": "Continues from page 10"
+    },
+    "12": { 
+      "audio": "assets/audio/p12.mp3",
+      "title": "Back Cover (Last Even Page)",
+      "description": "The end - stands alone as last even page"
     }
   }
 }
